@@ -14,7 +14,7 @@ public class HelloWorldService {
 	@Produces(MediaType.TEXT_HTML)
 	public Response showMessage() {
 		try {
-			String msg="Hello World!";
+			String msg="Hello World! Hello Argin";
 			return Response.ok(msg).build();
 		} catch (Exception ex) {
 			ex.getLocalizedMessage();
