@@ -34,7 +34,7 @@ import model.Customer;
 @Provider
 @Path("/customers")
 public class CustomerService {
-
+//DTO Solution
 	@GET
 	@Path("/list")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -75,7 +75,7 @@ public class CustomerService {
 			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(result).build();
 		}
 	}
-
+// JPA Solution
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/list/{id}")
@@ -84,6 +84,9 @@ public class CustomerService {
 		Customer customer = new Customer();
 		try {
 			customer = dao.getCustomerById(id);
+			if (customer==null)
+				return Response.status(Status.NOT_FOUND).entity("Error: Kunde wurde nicht gefunden").build();
+			else
 			return Response.ok(customer).build();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -104,7 +107,10 @@ public class CustomerService {
 			//from customer object into XML string
 			XMLList = new XStream().toXML(customersList);
 			xStream.alias("customers", Customer.class);
-			return Response.ok(XMLList).build();
+			if(XMLList.contains("model.Customer"))
+				return Response.ok(XMLList).build();
+			else
+				return Response.status(Status.NOT_FOUND).entity("Error: Kunde wurde nicht gefunden").build();
 		} catch (Exception ex) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(ex.getMessage()).build();
 		}
@@ -117,28 +123,22 @@ public class CustomerService {
 	public Response updateCustomerById(String XMLstring, @PathParam("id") int id) {
 		Customer customer = new Customer();
 		CustomerDAO dao = new CustomerDAO();
-		XStream xstream = new XStream();
+		int result=0;
 		try {
-			System.out.println("XML string: "+XMLstring);
 			//From XML String into customer object
 			StringReader sr = new StringReader(XMLstring);
-			System.out.println(sr);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			customer = (Customer) unmarshaller.unmarshal(sr);
-			
-			System.out.println(customer);
-			System.out.println(customer.getFirstName());
-			
-			//customer = (Customer)xstream.fromXML(XMLstring);
-			//System.out.println("customer: "+customer);
-			dao.updateCustomer(customer, id);
-
+			result=dao.updateCustomer(customer, id);
 		} catch (Exception ex) {
 			System.out.println("" + ex.getMessage());
 			ex.getStackTrace();
 			Response.status(Status.BAD_REQUEST).entity(ex.getLocalizedMessage()).build();
 		}
-		return Response.ok(customer).build();
+		if(result !=0)
+			return Response.ok(customer+" wurde aktualisiert").build();
+		else
+			return Response.status(Status.NOT_FOUND).entity("Error: "+result+ " Kunde wurde gefunden").build();
 	}
 }

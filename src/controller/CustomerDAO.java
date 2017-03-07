@@ -25,14 +25,12 @@ public class CustomerDAO {
 			factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 			EntityManager entityManager = factory.createEntityManager();
 			customer = entityManager.find(Customer.class, customerId);
-			System.out.println(customer);
 			// funktioniert auch
 
 			// Query q = entityManager.createQuery("SELECT c FROM Customer c
 			// WHERE c.id = :id");
 			// q.setParameter("id", customerId);
 			// customer=(Customer) q.getSingleResult();
-			System.out.println("customer: " + customer);
 		} catch (Exception ex) {
 			ex.getMessage();
 			System.out.println("Fehler bei der Abfrage des Kunden" + ex.getLocalizedMessage());
@@ -56,7 +54,7 @@ public class CustomerDAO {
 		return customers;
 	}
 
-	public void updateCustomer(Customer customer, int id) {
+	public int updateCustomer(Customer customer, int id) {
 		int result = 0;
 		try {
 			factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -74,11 +72,15 @@ public class CustomerDAO {
 			tx.commit();
 			entityManager.close();
 			// transaction end
+			if (result !=0){
 			System.out.println("Anzahl der geupdaten Kunden: "+result);
 			System.out.println("Kunde wurde geändert zu : "+customer);
+			}else
+				System.out.println("Error! Kunde nicht vorhanden");
 		} catch (Exception ex) {
 			System.out.println("Error: Kunde konnte nicht aktualisiert werden, weil .... "+ex.getMessage());
 			ex.getStackTrace();
 		}
+		return result;
 	}
 }
