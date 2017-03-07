@@ -6,14 +6,12 @@ import java.util.List;
 
 import dao.DBAccess;
 import dao.DBConnection;
-import dto.Customer;
-import dto.Customers;
+import model.Customer;
 
 public class AccessManager {
 
 	public List<Customer> getAllCustomers(){
 		List<Customer>customerList = new ArrayList<Customer>();
-		Customers customers = new Customers();
 		try{
 		DBConnection dbConnection = new DBConnection();
 		Connection con = dbConnection.getConnection();
@@ -28,5 +26,7 @@ public class AccessManager {
 		
 		return customerList;
 	}
+	
+	
 	
 }

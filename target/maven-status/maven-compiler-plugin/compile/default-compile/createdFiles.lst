@@ -1,0 +1,8 @@
+controller/AccessManager.class
+restService/CustomerService.class
+dao/DBConnection.class
+Application.class
+listener/LocalEntityManagerFactory.class
+model/Customers.class
+dao/DBAccess.class
+model/Customer.class

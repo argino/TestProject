@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dto.Customer;
-import dto.Customers;
+import model.Customer;
+
 
 public class DBAccess {
 	public ArrayList<Customer> getAllCustomers(Connection con) {
@@ -36,5 +36,30 @@ public class DBAccess {
 		}
 		System.out.println("DBAccess customerlist: "+customersList);
 		return customersList;
+	}
+	public Customer getCustomerById(Connection con, int personId) {
+		try{
+		Customer customer = new Customer();
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM customers WHERE personId=?");
+			stmt.setInt(1, personId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+//				if (rs.getInt("personId")==0)
+//					throw new Exception(""+ new Exception().printStackTrace(null));
+//				else{
+				customer.setFirstName(rs.getString("firstName"));
+				customer.setLastName(rs.getString("lastName"));
+				customer.setEmail(rs.getString("email"));
+				customer.setPhoneNo(rs.getString("phone"));
+				customer.setId(rs.getInt("personId"));
+			}
+					return customer;
+		//}
+	}
+		catch (SQLException e){
+			System.out.println("Error: invalid SQL statement: "+e.getLocalizedMessage());
+			e.getStackTrace();
+		}
+		return null;
 	}
 }

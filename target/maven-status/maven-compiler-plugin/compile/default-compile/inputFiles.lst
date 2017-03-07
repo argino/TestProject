@@ -1,1 +1,8 @@
-/home/setcon-dev/workspace_MCE/RESTfulExample/src/rest/HelloWorldService.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/model/Customer.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/restService/CustomerService.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/Application.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/dao/DBAccess.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/dao/DBConnection.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/model/Customers.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/listener/LocalEntityManagerFactory.java
+/home/setcon-dev/workspace_MCE/RESTfulExample/src/controller/AccessManager.java
